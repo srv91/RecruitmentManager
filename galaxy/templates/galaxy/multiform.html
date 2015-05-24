@@ -4,6 +4,8 @@
 <html>
 <head>
 
+<link href="{% static 'asteroid/css/bootstrap.min.css' %}" rel="stylesheet">
+</br></br>
 <style>
 
 /*basic reset*/
@@ -152,7 +154,7 @@ color: white;
 <fieldset>
 <h2 class="fs-title" align="left">Skill</h2>
 <h3 class="fs-subtitle" align="left">skill sub</h3>
-<input type="text" name="skills" placeholder="Enter Skill(s)" /><input type="submit" name="add" value="Add" />
+<p><input type="text" name="skills" placeholder="Enter Skill(s)" /><input type="submit" name="add" value="Add" /></p>
 <h2 class="fs-title" align="left">Candidate Skill Level</h2>
 <h3 class="fs-subtitle" align="left">candidate skill sub</h3>
 <a href="#"><img src="#" alt="Jr. Developer" width="100" height="100" border="0"></a> <a href="#"><img src="#" alt="Sr. Developer" width="100" height="100" border="0"></a> <a href="#"><img src="#" alt="Architect" width="100" height="100" border="0"></a>
@@ -161,11 +163,11 @@ color: white;
 <fieldset>
 <h2 class="fs-title" align="left">Contact Information</h2>
 <h3 class="fs-subtitle" align="left">Helps us to reach you</h3>
-Name <input type="text" name="cname" />
-Organization Name <input type="text" name="oname" />
-Organization URL <input type="text" name="cname" />
-Email <input type="email" name="email" />
-Phone <input type="text" name="phone" />
+<p>Name <input type="text" name="cname" /></p>
+<p>Organization Name <input type="text" name="oname" /></p>
+<p>Organization URL <input type="text" name="cname" /></p>
+<p>Email <input type="email" name="email" /></p>
+<p>Phone <input type="text" name="phone" /></p>
 <input type="button" name="next" class="next action-button" value="Save and go to quote" />
 </fieldset>
 <fieldset>
@@ -264,6 +266,15 @@ $(".submit").click(function(){
 
 });
 </script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="{% static 'galaxy/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'galaxy/js/docs.min.js' %}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 
 </body>
 </html>
