@@ -3,27 +3,60 @@
 
 <html>
 <head>
-
-<link href="{% static 'asteroid/css/bootstrap.min.css' %}" rel="stylesheet">
-<div class="col-md-12">
-<p><a href="#" align="right" >For Interviewers</a> <a href="#" align="right" >Help</a></p>
-</div>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="{% static 'galaxy/css/bootstrap.min.css' %}" rel="stylesheet">
 </br></br>
+<script language="javascript">
+
+  var skillarray = new Array(); /*declare an array for skills*/
+  function gentag() {
+    document.getElementById('tags').innerHTML = "";
+    for (var j=0; j<skillarray.length; j++) {
+      var id = j;   /* set skill button id as counter value*/
+      var skilltag = "<input id=" + id + " type='button' class='btn btn-sm btn-warning' onclick='remtag(this.id)' value=" + skillarray[j] + ">";
+      document.getElementById('tags').innerHTML += skilltag + " ";
+    }
+  }
+  function addtag() {
+
+    if (document.getElementById('add').value) {
+      var data = document.getElementById('add').value;
+      skillarray.push(data);   /*stack up the skills in the global array*/
+      document.getElementById('add').value = "";
+      gentag();
+    }
+  }
+  function tabulate() {
+    var skills = skillarray.join();
+
+    if (document.getElementById('jr').checked) {
+      var level = document.getElementById('jr').value;
+      var unitp = 100;
+    }
+    else if (document.getElementById('sr').checked) {
+      var level = document.getElementById('sr').value;
+      var unitp = 120;
+    }
+    else if (document.getElementById('architect').checked) {
+      var level = document.getElementById('architect').value;
+      var unitp = 125;
+    }
+    /*table for quote*/
+    var table1 = "<table border='0' cellpadding='4' width='100%'>";
+    table1 += "<tr><th>Skills</th><th>Expertise Level</th><th>No. of interviews</th><th>Unit price</th><th>Estimated cost</th></tr>";
+    table1 += "<tr><td>" + skills + "</td><td>" + level + "</td><td>" + 1 + "</td><td>" + unitp + "</td><td>" + 1 + "</td></tr>";
+    table1 += "</table>";
+    document.getElementById('table1').innerHTML = table1;
+  }
+  function remtag(id) {
+    skillarray.splice(id, 1);
+    gentag();
+  }
+</script>
 <style>
 
-/*basic reset*/
-* {
-margin: 0;
-padding: 0;
-}
-html {
-height: 100%;
-/*Image only BG fallback*/
-background: white;
-}
-body {
-font-family: montserrat, arial, verdana;
-}
 /*form styles*/
 #msform {
 width: 800px;
@@ -38,7 +71,7 @@ border-radius: 3px;
 box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
 padding: 20px 30px;
 box-sizing: border-box;
-width: 80%;
+width: 85%;
 margin: 0 10%;
 /*stacking fieldsets above each other*/
 position: absolute;
@@ -47,33 +80,7 @@ position: absolute;
 #msform fieldset:not(:first-of-type) {
 display: none;
 }
-/*inputs*/
-#msform input, #msform textarea {
-padding: 15px;
-border: 1px solid #ccc;
-border-radius: 3px;
-margin-bottom: 10px;
-width: 100%;
-box-sizing: border-box;
-font-family: montserrat;
-color: #2C3E50;
-font-size: 13px;
-}
-/*buttons*/
-#msform .action-button {
 
-background: #E84343;
-font-weight: bold;
-color: white;
-border: 0 none;
-border-radius: 1px;
-cursor: pointer;
-padding: 10px 5px;
-margin: 10px 5px;
-}
-#msform .action-button:hover, #msform .action-button:focus {
-box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
-}
 /*headings*/
 .fs-title {
 font-size: 15px;
@@ -132,15 +139,18 @@ z-index: -1; /*put it behind the numbers*/
 /*connector not needed before the first step*/
 content: none;
 }
-/*marking active/completed steps green*/
-/*The number of the step and the connector before it = green*/
+/*marking active/completed steps red*/
+/*The number of the step and the connector before it = red*/
 #progressbar li.active:before, #progressbar li.active:after {
 background: #E84343;
 color: white;
 }
 </style>
+
 <title>Post Your Requirement</title>
+
 </head>
+
 <body>
 <h1 class="fs-title" align="center">Post Your Requirement</h1>
 <h2 class="fs-subtitle" align="center">Post your requirement and hire on-demand, expert interviewers</h2>
@@ -153,32 +163,97 @@ color: white;
 <li>Contact info</li>
 <li>Quote</li>
 </ul>
+
 <!-- fieldsets -->
 <fieldset>
 <h2 class="fs-title" align="left">Skill</h2>
-<h3 class="fs-subtitle" align="left">skill sub</h3>
-<p><input type="text" name="skills" placeholder="Enter Skill(s)" /><input type="submit" name="add" value="Add" /></p>
+<h3 class="fs-subtitle" align="left">Pick the skills that you would like to interview the candidate on</h3>
+<div class="input-group">
+<input type="text" class="form-control input-default" id="add" name="skills" placeholder="Enter Skill(s)" style="float:left" >
+<span class="input-group-btn">
+<input type="button" class="btn btn-default btn-warning" onclick="addtag()" value="Add Skill">
+</span>
+</div>
+
+<div id="tags" >
+</div>
+
 <h2 class="fs-title" align="left">Candidate Skill Level</h2>
-<h3 class="fs-subtitle" align="left">candidate skill sub</h3>
-<a href="#"><img src="#" alt="Jr. Developer" width="100" height="100" border="0"></a> <a href="#"><img src="#" alt="Sr. Developer" width="100" height="100" border="0"></a> <a href="#"><img src="#" alt="Architect" width="100" height="100" border="0"></a>
-<input type="button" name="next" class="next action-button" value="Save and go to Contact Information" />
+<h3 class="fs-subtitle" align="left">Pick the expected skill levels of the candidates</h3>
+
+<div class="level-selector">
+<input id="jr" type="radio" name="level-developer" value="Jr. Developer" />
+<label class="level jr" for="jr"></label>
+<input id="sr" type="radio" name="level-developer" value="Sr. Developer" />
+<label class="level sr"for="sr"></label>
+<input id="architect" type="radio" name="level-developer" value="Architect" />
+<label class="level architect" for="architect"></label>
+</div>
+<script language="javascript">
+  document.getElementById('jr').style.display="none";
+  document.getElementById('sr').style.display="none";
+  document.getElementById('architect').style.display="none";
+</script>
+<style>
+
+.level-selector input{
+margin:0;padding:0;
+-webkit-appearance:none;
+-moz-appearance:none;
+appearance:none;
+}
+.jr{background-image:url(http://ecx.images-amazon.com/images/I/313sXpmBJ4L._SX300_.jpg);}
+.sr{background-image:url(http://ecx.images-amazon.com/images/I/315K2ET5ZEL._SX300_.jpg);}
+.architect{background-image:url(http://stock-image.mediafocus.com/images/previews/word-architect-on-keyboard-rs112039199.jpg);}
+ 
+.level-selector input:active +.level{opacity: .9;}
+.level-selector input:checked +.level{
+-webkit-filter: none;
+-moz-filter: none;
+filter: none;
+}
+.level{
+cursor:pointer;
+background-size:contain;
+background-repeat:no-repeat;
+display:inline-block;
+width:100px;height:70px;
+-webkit-transition: all 100ms ease-in;
+-moz-transition: all 100ms ease-in;
+transition: all 100ms ease-in;
+-webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+-moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+filter: brightness(1.8) grayscale(1) opacity(.7);
+}
+.level:hover{
+-webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+-moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+filter: brightness(1.2) grayscale(.5) opacity(.9);
+}
+</style>
+
+<input type="button" name="next" class="btn btn-default btn-danger next action-button" value="Save and go to Contact Information" />
 </fieldset>
+
 <fieldset>
 <h2 class="fs-title" align="left">Contact Information</h2>
 <h3 class="fs-subtitle" align="left">Helps us to reach you</h3>
-<p>Name <input type="text" name="cname" /></p>
-<p>Organization Name <input type="text" name="oname" /></p>
-<p>Organization URL <input type="text" name="cname" /></p>
-<p>Email <input type="email" name="email" /></p>
-<p>Phone <input type="text" name="phone" /></p>
-<input type="button" name="next" class="next action-button" value="Save and go to quote" />
+<p><input type="text" class="form-control" name="cname" placeholder="Name" /></p>
+<p><input type="text" class="form-control" name="oname" placeholder="Organization Name" /></p>
+<p><input type="text" class="form-control" name="cname" placeholder="Organization URL" /></p>
+<p><input type="email" class="form-control" name="email" placeholder="Email" /></p>
+<p><input type="text" class="form-control" name="phone" placeholder="Phone" /></p>
+<input type="button" name="next" class="btn btn-default btn-danger next action-button" onclick="tabulate()" value="Save and go to quote" />
 </fieldset>
+
 <fieldset>
-<table border="0" cellpadding="4" width="100%">
-<tr><td>Skills</td><td>Expertise Level</td><td>No. of interviews</td><td>Unit price</td><td>Estimated cost</td></tr>
-</table>
-<input type="button" name="next" class="next action-button" value="Deliver quote to Email" />
+
+<div id="table1">
+</div></br></br></br>
+
+<input type="button" name="next" class="btn btn-default btn-danger next action-button" value="Deliver quote to Email" />
 </fieldset>
+
 </form>
 
 <!-- jQuery -->
@@ -269,15 +344,9 @@ $(".submit").click(function(){
 
 });
 </script>
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="{% static 'galaxy/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'galaxy/js/docs.min.js' %}"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 
 </body>
 </html>
+
